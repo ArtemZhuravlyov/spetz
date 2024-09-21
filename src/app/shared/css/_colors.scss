@@ -1,0 +1,31 @@
+$primary-orange: #ffc93c;
+$grey: #666666;
+$light-grey: #E0E0E0;
+$text-dark: #212121;
+$white: #FFFFFF;
+
+$colors: (
+        'primary-orange': $primary-orange,
+        'grey': $grey,
+        'light-grey': $light-grey,
+        'text-dark': $text-dark,
+        'white': $white,
+);
+
+@each $colorName, $colorValue in $colors {
+  .bg-#{$colorName} {
+    background-color: $colorValue !important;
+  }
+}
+
+@each $colorName, $colorValue in $colors {
+  .color-#{$colorName} {
+    color: $colorValue !important;
+  }
+}
+
+@each $colorName, $colorValue in $colors {
+  .border-#{$colorName} {
+    border-color: $colorValue !important;
+  }
+}
