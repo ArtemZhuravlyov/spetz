@@ -13,7 +13,7 @@ const Navbar = () => {
             <div className="flex h-20 items-center">
               {/*// TODO MOBILE NAV*/}
               <div className='ml-4 flex lg:ml-0 h-20 align-middle justify-between w-full'>
-                <Link href='/public'>
+                <Link href='/' className="flex items-center justify-center h-20">
                   <Image
                     width='40'
                     height='40'
