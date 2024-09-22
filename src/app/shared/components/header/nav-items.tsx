@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { NAVIGATION_MENU } from "@/app/shared/config/constants/navigation";
-import HeaderNavDropDownMenu from "@/app/shared/components/header-nav-dropdown-menu";
+import HeaderNavDropDownMenu from "@/app/shared/components/header/header-nav-dropdown-menu";
 
 const NavItems = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);

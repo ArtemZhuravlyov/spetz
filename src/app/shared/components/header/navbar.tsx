@@ -1,7 +1,7 @@
 import MaxWidthWrapper from "@/app/shared/components/MaxWidthWrapper";
 import Link from "next/link";
 import Image from "next/image";
-import NavItems from "@/app/shared/components/nav-items";
+import NavItems from "@/app/shared/components/header/nav-items";
 import { HeartIcon, SearchIcon, ShoppingCartIcon } from "lucide-react";
 
 const Navbar = () => {
@@ -13,7 +13,7 @@ const Navbar = () => {
             <div className="flex h-20 items-center">
               {/*// TODO MOBILE NAV*/}
               <div className='ml-4 flex lg:ml-0 h-20 align-middle justify-between w-full'>
-                <Link href='/'>
+                <Link href='/public'>
                   <Image
                     width='40'
                     height='40'
