@@ -8,7 +8,7 @@ const Footer = () => {
           <div className='flex-grow-2 flex flex-col px-10 gap-1'>
             {/*// TODO POPULATE WITH LOGO AND SOCIAL MEDIA LINKS*/}
             <h1 className='text-4xl font-bold'>SPRAVA</h1>
-            <h2 className='text-3xl'>Якісний робочий одяк</h2>
+            <h2 className='text-3xl'>Якісний робочий одяг</h2>
           </div>
 
           <div className='flex-grow-3 flex justify-between px-10'>
