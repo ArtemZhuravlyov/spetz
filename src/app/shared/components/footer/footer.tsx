@@ -1,7 +1,7 @@
 import MaxWidthWrapper from "@/app/shared/components/MaxWidthWrapper";
 
 const Footer = () => {
-  return <div className="bg-gray-800 absolute z-50 bottom-0 inset-x-0 h-60">
+  return <div className="bg-gray-800  z-50 bottom-0 inset-x-0 h-60">
     <footer className='relative bg-gray-800'>
       <MaxWidthWrapper>
         <div className='flex p-10 text-white'>
