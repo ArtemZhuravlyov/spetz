@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { mockProduct } from "@/app/shared/config/mocks/mock-product";
 import MaxWidthWrapper from "@/app/shared/components/MaxWidthWrapper";
 import { Product } from "@/app/shared/config/models/product";
 import StarsComponent from "@/app/shared/components/stars/stars";
 import ProductAccordion from "@/app/shared/components/product-info-accordion/product-accordion";
+import DOMPurify from 'dompurify';
 
 
 interface PageProps{
@@ -28,6 +28,13 @@ const ProductPage = ({params}: PageProps) => {
   const [pointedColor, setPointedColor ] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
+
+  const sanitizeHtml = (html: string) => {
+    if (typeof window !== 'undefined') {
+      return { __html: DOMPurify.sanitize(html) };
+    }
+    return { __html: '' };
+  };
 
   const handleAddToCart = () => {
     // Handle add to cart logic
@@ -71,7 +78,7 @@ const ProductPage = ({params}: PageProps) => {
           <div className="flex w-full align-middle justify-center">
             <button
               onClick={handleShowMore}
-              className="underline mt-4 font-bold py-2 px-4 rounded-lg transition hover:scale-105 hover:text-yellow-500 hover:border-yellow-500"
+              className="underline mt-4 font-bold py-2 px-4 rounded-lg transition hover:scale-105 hover:text-grey-500 hover:border-grey-800"
             >
               Show More
             </button>
@@ -79,83 +86,85 @@ const ProductPage = ({params}: PageProps) => {
 
         </div>
 
-        {/* Product Details */}
-        <div className="product-details">
-          <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+          {/* Product Details */}
+        <div className="h-[700px] flex flex-col justify-between">
+          <div className="product-details">
+            <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
 
-          {/* Review Stars */}
-          {product.reviews && (
-            <StarsComponent
-              rating={product.reviews.rating}
-              reviews={product.reviews.reviewsCount}
-              className="text-yellow-500"
-            />
-          )}
+            {/* Review Stars */}
+            {product.reviews && (
+              <StarsComponent
+                rating={product.reviews.rating}
+                reviews={product.reviews.reviewsCount}
+                className="text-yellow-500"
+              />
+            )}
 
-          <p className="text-xl font-semibold text-gray-800 mb-4 mt-4">${product.price}</p>
-          <p className="text-gray-700 mb-6">{product.description}</p>
+            <p className="text-xl font-semibold text-gray-800 mb-8 mt-8">${product.price}</p>
 
-          {/* Sizes */}
-          <div className="mb-4">
-            <h3 className="text-lg font-bold mb-2">Select Size <span
-              className="font-normal">{pointedSize ? pointedSize : selectedSize}</span></h3>
-            <div className="flex space-x-4">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  className={`border-2 border-black px-4 py-2 ${
-                    selectedSize === size ? 'bg-black text-white' : 'bg-white'
-                  }`}
-                  onClick={() => setSelectedSize(size)}
-                  onMouseEnter={() => setPointedSize(size)}
-                  onMouseLeave={() => setPointedSize(null)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Colors */}
-          <div className="mb-4">
-            <h3 className="text-lg font-bold mb-2">Select Color <span
-              className="font-normal">{pointedColor ? pointedColor : selectedColor}</span></h3>
-            <div className="flex space-x-4">
-              {product.colors.map((color) => (
-                <div className={`flex align-middle justify-center p-1 rounded-full hover:ring-1 hover:ring-black ${
-                  selectedColor === color ? 'ring-2 ring-black' : ''
-                }`}>
+            {/* Sizes */}
+            <div className="mb-8">
+              <h3 className="text-lg font-bold mb-2 ">Select Size <span
+                className="font-normal">{pointedSize ? pointedSize : selectedSize}</span></h3>
+              <div className="flex space-x-4">
+                {product.sizes.map((size) => (
                   <button
-                    key={color}
-                    className={`w-8 h-8 rounded-full border border-gray-400`}
-                    style={{backgroundColor: color.toLowerCase()}}
-                    onClick={() => setSelectedColor(color)}
-                    onMouseEnter={() => setPointedColor(color)}
-                    onMouseLeave={() => setPointedColor(null)}
-                  />
-                </div>
-              ))}
+                    key={size}
+                    className={`border-2 border-black px-4 py-2 hover:scale-105 ${
+                      selectedSize === size ? 'bg-black text-white' : 'bg-white'
+                    }`}
+                    onClick={() => setSelectedSize(size)}
+                    onMouseEnter={() => setPointedSize(size)}
+                    onMouseLeave={() => setPointedSize(null)}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Quantity */}
-          <div className="mb-6">
-            <h3 className="text-lg font-bold mb-2">Quantity</h3>
-            <div className="flex items-center space-x-4">
-              <button
-                className="border px-2 py-1"
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              >
-                -
-              </button>
-              <span>{quantity}</span>
-              <button
-                className="border px-2 py-1"
-                onClick={() => setQuantity((q) => q + 1)}
-              >
-                +
-              </button>
+            {/* Colors */}
+            <div className="mb-8">
+              <h3 className="text-lg font-bold mb-2">Select Color <span
+                className="font-normal">{pointedColor ? pointedColor : selectedColor}</span></h3>
+              <div className="flex space-x-4">
+                {product.colors.map((color) => (
+                  <div className={`flex align-middle justify-center p-1 rounded-full hover:ring-1 hover:ring-black ${
+                    selectedColor === color ? 'ring-2 ring-black' : ''
+                  }`}>
+                    <button
+                      key={color}
+                      className={`w-8 h-8 rounded-full border border-gray-400`}
+                      style={{backgroundColor: color.toLowerCase()}}
+                      onClick={() => setSelectedColor(color)}
+                      onMouseEnter={() => setPointedColor(color)}
+                      onMouseLeave={() => setPointedColor(null)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {/* Quantity */}
+            <div className="mb-8">
+              <h3 className="text-lg font-bold mb-2">Quantity</h3>
+              <div className="flex items-center space-x-4">
+                <button
+                  className="border px-2 py-1"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                >
+                  -
+                </button>
+                <span>{quantity}</span>
+                <button
+                  className="border px-2 py-1"
+                  onClick={() => setQuantity((q) => q + 1)}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
           </div>
 
           {/* Add to Cart */}
@@ -168,19 +177,17 @@ const ProductPage = ({params}: PageProps) => {
         </div>
       </div>
 
-
-      {/* Product descr */}
+      {/* Product description */}
       {product.productDescription && (
         <div className="mt-12">
           {Object.entries(product.productDescription).map(([key, value]) => (
             <ProductAccordion key={key}
                               title={key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}>
-              <p>{value}</p>
+              <div dangerouslySetInnerHTML={sanitizeHtml(value)}/>
             </ProductAccordion>
           ))}
         </div>
       )}
-
     </div>
   </MaxWidthWrapper>)
 };
