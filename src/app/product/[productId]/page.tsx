@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { mockProduct } from "@/app/shared/config/mocks/mock-product";
 import MaxWidthWrapper from "@/app/shared/components/MaxWidthWrapper";
@@ -28,6 +28,8 @@ const ProductPage = ({params}: PageProps) => {
   const [pointedColor, setPointedColor ] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const addToCartRef = useRef<HTMLButtonElement>(null);
 
   const sanitizeHtml = (html: string) => {
     if (typeof window !== 'undefined') {
@@ -53,6 +55,20 @@ const ProductPage = ({params}: PageProps) => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
+
+  // Scroll event handler
+  useEffect(() => {
+    const handleScroll = () => {
+      if (addToCartRef.current) {
+        const rect = addToCartRef.current.getBoundingClientRect();
+        setShowStickyBar(rect.bottom <= 80);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
 
   return (<MaxWidthWrapper>
     <div className="container mx-auto px-4 py-8">
@@ -170,6 +186,7 @@ const ProductPage = ({params}: PageProps) => {
           {/* Add to Cart */}
           <button
             className="w-full bg-black text-white py-5 hover:bg-gray-800"
+            ref={addToCartRef}
             onClick={handleAddToCart}
           >
             Add to Cart
@@ -188,6 +205,34 @@ const ProductPage = ({params}: PageProps) => {
           ))}
         </div>
       )}
+
+      {showStickyBar && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white shadow-md p-4 flex justify-between items-center z-50 border-t-2 border-gray-200 px-2.5 md:px-20">
+          <div className="flex items-center">
+            <div className="w-16 h-16 relative">
+              <Image
+                src={product.images[0]}
+                alt={product.name}
+                fill
+                objectFit="cover"
+                className="rounded-lg"
+              />
+            </div>
+            <h2 className="text-2xl font-bold ml-4">{product.name}</h2>
+          </div>
+          <div className="flex items-center">
+            <p className="text-lg font-semibold mr-4">${product.price}</p>
+            <button
+              className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800"
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </button>
+          </div>
+
+        </div>
+      )}
+
     </div>
   </MaxWidthWrapper>)
 };
