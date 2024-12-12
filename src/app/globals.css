@@ -29,6 +29,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --font-ibm-plex-sans-condensed: 'IBM Plex Sans Condensed', sans-serif;
+    --font-ibm-plex-mono: 'IBM Plex Mono', monospace;
   }
 
   .dark {
@@ -66,4 +68,32 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Default font styles */
+body {
+  font-family: var(--font-ibm-plex-sans-condensed), sans-serif; /* Default to IBM Plex Sans Condensed for the body */
+}
+
+/* Heading styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-ibm-plex-mono), monospace; /* IBM Plex Mono for all headers */
+  margin: 0;
+}
+
+/* Button styles */
+button, link {
+  font-family: var(--font-ibm-plex-mono), monospace; /* IBM Plex Mono for buttons */
+  cursor: pointer;
+}
+
+/* Additional global element styles (optional) */
+p {
+  margin: 0;
+  font-size: 1rem; /* Adjust as needed */
+}
+
+a {
+  text-decoration: none;
+  font-family: var(--font-ibm-plex-sans-condensed), sans-serif;
 }
