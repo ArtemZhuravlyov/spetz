@@ -1,10 +1,12 @@
-import { ItemModel } from "@/app/shared/config/models/item-model";
+import { ProductCardItem } from "@/app/shared/config/models/product-card-item-model";
+import { BannerImages } from "@/app/shared/components/banner-component/banner";
 
 export interface ProductCarouselModel{
   title: string;
-  banner?: string;
+  banner?: BannerImages;
   subtitle?: string;
-  item: ItemModel[]
+  items: ProductCardItem[];
+  shopAllLink: string;
 }
 
 export interface CategoryCarouselModel{

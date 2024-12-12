@@ -1,12 +1,14 @@
 'use client';
 
 import React from 'react';
-import Slider from 'react-slick';
-import Image from 'next/image';
+
 import MaxWidthWrapper from "@/app/shared/components/MaxWidthWrapper";
 import { ProductCarouselModel } from "@/app/shared/config/models/carousel-model";
+import Banner from "@/app/shared/components/banner-component/banner";
+import ShopAllButton from "@/app/shared/utilities/shop-all-button";
+import ProductCard from "@/app/shared/components/product-card/product-card";
 
-const ProductCarousel = ({ banner, title, subtitle, items } : ProductCarouselModel ) => {
+const ProductCarousel: React.FC<{ productData: ProductCarouselModel }> = ({ productData }) => {
 
   // TODO - fetch
   const settings = {
@@ -38,34 +40,17 @@ const ProductCarousel = ({ banner, title, subtitle, items } : ProductCarouselMod
   return (
     <div>
       {/* Show the banner if provided */}
-      {banner && (
-        <h1>hui</h1>
-        // <div className="relative w-full h-[400px] mb-8">
-        //   <Image
-        //     src={banner}
-        //     alt={title || 'Banner'}
-        //     layout="fill"
-        //     objectFit="cover"
-        //     className="rounded-lg"
-        //   />
-        //   {/* Title and Subtitle */}
-        //   {title && (
-        //     <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white">
-        //       <h1 className="text-4xl font-bold">{title}</h1>
-        //       {subtitle && <p className="text-xl mt-2">{subtitle}</p>}
-        //     </div>
-        //   )}
-        // </div>
+      {productData.banner && (
+        <Banner heading={productData.title} images={productData.banner} subheading={productData.subtitle}/>
       )}
 
-      {!banner && (
+      {!productData.banner && (
         <MaxWidthWrapper>
           <div>
-            <h1>HUIIIIIIII</h1>
-            {title && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white">
-                <h1 className="text-4xl font-bold">{title}</h1>
-                {subtitle && <p className="text-xl mt-2">{subtitle}</p>}
+            {productData.title.length && (
+              <div className="">
+                <h1 className="text-3xl font-bold text-gray-800">{productData.title}</h1>
+                {productData.subtitle && <p className="text-2-xl mt-2 font-bold">{productData.subtitle}</p>}
               </div>
             )}
           </div>
@@ -73,54 +58,26 @@ const ProductCarousel = ({ banner, title, subtitle, items } : ProductCarouselMod
 
       )}
 
-      <MaxWidthWrapper>
-        {showProduct && (
-          <Slider {...settings}>
-            {items.map((item) => (
-              <div key={item.id} className="p-4">
-                <a href={item.link} className="group block">
-                  <div className="relative w-full h-[300px] mb-4">
-                    <Image
-                      src={item.image}
-                      alt={item.title || 'Product'}
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-lg"
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-800 group-hover:text-yellow-500 transition-colors">
-                    {item.title}
-                  </h3>
-                  {item.subtitle && <p className="text-lg text-gray-600">{item.subtitle}</p>}
-                </a>
-              </div>
-            ))}
-          </Slider>
-        )}
+      <div className="py-10 bg-white">
+        <MaxWidthWrapper>
+          <div className="relative">
+            <div
+              className="flex space-x-4 overflow-x-scroll scrollbar scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
+              style={{scrollBehavior: 'smooth'}}
+            >
+              {productData.items.map((item) => (
+                <ProductCard key={item.id} {...item} />
+              ))}
+            </div>
+          </div>
+        </MaxWidthWrapper>
 
-        {showCategory && (
-          <Slider {...settings}>
-            {items.map((item) => (
-              <div key={item.id} className="p-4">
-                <a href={item.link} className="group block">
-                  <div className="relative w-full h-[200px] mb-4">
-                    <Image
-                      src={item.image}
-                      alt={item.title || 'Category'}
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-lg"
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-800 group-hover:text-yellow-500 transition-colors">
-                    {item.title}
-                  </h3>
-                </a>
-              </div>
-            ))}
-          </Slider>
-        )}
-      </MaxWidthWrapper>
+        <MaxWidthWrapper>
+          <div className="flex justify-end mb-8">
+            <ShopAllButton href={productData.shopAllLink}></ShopAllButton>
+          </div>
+        </MaxWidthWrapper>
+      </div>
     </div>
   );
 };

@@ -39,7 +39,7 @@ const CategoryCarousel: React.FC<{ carouselData: CategoryCarouselModel }> = ({ c
       <MaxWidthWrapper>
         <div className="relative">
           <div
-            className="flex space-x-4 overflow-x-scroll scrollbar scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 p-4"
+            className="flex space-x-4 overflow-x-scroll scrollbar scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
             style={{ scrollBehavior: 'smooth' }}
           >
             {carouselData.items.map((item, index) => (
