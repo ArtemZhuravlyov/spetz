@@ -1,33 +1,33 @@
 'use client'
 
-import { useState } from "react";
 import { NAVIGATION_MENU } from "@/app/shared/config/constants/navigation";
-import HeaderNavDropDownMenu from "@/app/shared/components/header/header-nav-dropdown-menu";
+import { usePathname } from "next/navigation";
 
 const NavItems = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const pathname = usePathname();
 
-  const handleOpen = (index: number) => {
-    setActiveIndex(index);
-  };
-
-  const handleClose = () => {
-    setActiveIndex(null);
-  };
+  const activeCategory = NAVIGATION_MENU.find((category) =>
+    pathname.startsWith(`/${category.link}`)
+  )?.link;
 
   return (
     <div className="flex h-full gap-4">
-      {NAVIGATION_MENU.map((category, i) => {
-        const isOpen = i === activeIndex;
+      {NAVIGATION_MENU.map((category) => {
+        const isSelected = activeCategory === category.link;
 
         return (
-          <HeaderNavDropDownMenu
-            key={category.value}
-            category={category}
-            isOpen={isOpen}
-            handleOpen={() => handleOpen(i)}
-            handleClose={handleClose}
-          />
+          <div className='p-1 h-20 flex items-center justify-center'>
+            <a href={category.link} className={`gap-1.5 font-bold text-base cursor-pointer hover:text-black ${
+                  isSelected ? 'text-black' : 'text-gray-700'
+                }`}>
+              {category?.label}
+              <div
+                className={`h-[4px] w-full mt-1 transition-opacity duration-300 ease-in-out ${
+                  isSelected ? 'bg-black opacity-100' : 'bg-transparent opacity-0'
+                }`}
+              />
+            </a>
+          </div>
         );
       })}
     </div>

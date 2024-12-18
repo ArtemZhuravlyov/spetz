@@ -20,7 +20,6 @@ const ProductPage = ({params}: PageProps) => {
 
   // Assume this data is fetched from an API based on the product ID
   const product: Product = mockProduct;
-  console.log(params)
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [pointedSize, setPointedSize] = useState<string | null>(null);
